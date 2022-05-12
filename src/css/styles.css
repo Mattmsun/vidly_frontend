@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+img {
+    max-width: 100%;
+}
+
+.picture{
+    width: 400px
+}
+.container_1{
+    background-image: url('../images/movie_2.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;    
+    /* padding:1rem */
+}
+.container_2{
+    background-image: url('../images/movie_4.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;    
+    /* padding:1rem */
+}
+.dashboard{
+    background-image: url('../images/movie_4.jpeg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;    
+}
+.moviebg{
+    background-image: url('../images/bg.jpeg');
+    background-repeat: no-repeat;
+    background-position:inherit;
+    background-size: cover; 
+    height: 200vh;
+    
+
+}

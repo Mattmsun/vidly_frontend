@@ -12,6 +12,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
+import vildyIcon from "../images/vidly_icon.jpeg";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { UserContext } from "../App";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -70,16 +71,14 @@ export const Navbar = () => {
           sx={{ paddingTop: "8px" }}
           onClick={routeToHome}
         >
-          <LiveTvIcon />
+          <img src={vildyIcon} width="100px" />
         </IconButton>
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1 }}
           align="left"
-        >
-          Vidly Movie
-        </Typography>
+        ></Typography>
         {token ? (
           <Stack direction="row" spacing={2}>
             <Button color="inherit" onClick={routeToCategory}>
@@ -100,15 +99,12 @@ export const Navbar = () => {
               color="inherit"
               id="resources-button"
               onClick={handleClick}
-              aria-control={open ? "resource-menu" : undefined}
+              aria-controls={open ? "resources-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
               <AccountCircleIcon />
             </IconButton>
-            {/* <Button color="inherit" onClick={handleLogout}>
-              Log out
-            </Button> */}
           </Stack>
         ) : (
           <Stack direction="row" spacing={2}>

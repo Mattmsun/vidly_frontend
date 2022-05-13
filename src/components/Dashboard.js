@@ -182,7 +182,7 @@ export const Dashboard = ({ user }) => {
   return (
     <Box className="container_1">
       <Box sx={{ padding: "30px" }}>
-        <Typography sx={{ color: "white" }} variant="h3">
+        <Typography sx={{ color: "white" }} variant="h4">
           Hello,{user.name}
           {!customer.customerId ? (
             <Tooltip placement="top" title="To be  gold customer?">
@@ -203,11 +203,13 @@ export const Dashboard = ({ user }) => {
       </Box>
 
       <Grid
+        sx={{ marginLeft: "30px" }}
         container
         direction="row"
-        justifyContent="space-between"
+        // justifyContent="space-between"
         columns={19}
         rowSpacing={2}
+        columnSpacing={2}
         // alignItems="center"
       >
         {catageries.map((category, index) => (

@@ -35,6 +35,10 @@ img {
     background-position:inherit;
     background-size: cover; 
     height: 200vh;
-    
-
+}
+.buttonStyle{
+    max-width: 400px;
+    max-height: 40px;
+    min-width: 400px;
+    min-height: 40px;
 }

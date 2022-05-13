@@ -17,10 +17,11 @@ const theme = createTheme({
     },
   },
   typography: {
-    h4: {
+    h3: {
       color: "white",
+      fontWeight: 600,
     },
-    body2: {
+    h5: {
       color: "white",
     },
   },
@@ -35,7 +36,8 @@ const Home = () => {
     navigate(path);
   };
   async function setCustomer() {
-    await window.localStorage.setItem("customerId", JSON.stringify(""));
+    if (window.localStorage.getItem("customerId")) return;
+    else await window.localStorage.setItem("customerId", JSON.stringify(""));
   }
   useEffect(() => {
     setCustomer();
@@ -68,52 +70,67 @@ const Home = () => {
       <ThemeProvider theme={theme}>
         <Box
           className="container_1"
-          sx={{ height: "600px", paddingTop: "150px" }}
+          sx={{ height: "600px", paddingTop: "100px" }}
         >
-          <Typography gutterBottom align="left" variant="h4">
-            EXPLORE THE MOST POPULAR MOVIES
-          </Typography>
+          <Box sx={{ marginLeft: "30px" }}>
+            <Typography gutterBottom align="left" variant="h3">
+              EXPLORE THE MOST POPULAR MOVIES
+            </Typography>
 
-          <Typography align="left" variant="body2">
-            Subscribe for $7.99 AUD / Month. FREE.
-          </Typography>
+            <Typography align="left" variant="h5">
+              Subscribe for $7.99 AUD / Month. FREE.
+            </Typography>
 
-          <Typography align="left" variant="body2">
-            Cancel anytime.
-          </Typography>
+            <Typography align="left" variant="h5">
+              Cancel anytime.
+            </Typography>
 
-          <Typography align="left" variant="body2">
-            Join now & get 7 days FREE.
-          </Typography>
+            <Typography align="left" variant="h5">
+              Join now & get 7 days FREE.
+            </Typography>
 
-          <Grid sx={{ marginTop: "100px" }} container direction="column">
-            <Grid sx={{ marginBottom: "10px" }} xs={4}>
-              <Button
-                variant="contained"
-                size="large"
-                fullWidth
-                onClick={routeToSignUp}
-              >
-                SIGN UP TO START
-              </Button>
+            <Grid sx={{ marginTop: "100px" }} container>
+              <Grid item sx={{ marginBottom: "10px" }} xs={12}>
+                <Box display="flex" justifyContent="flex-start">
+                  <Button
+                    variant="contained"
+                    style={{
+                      maxWidth: "400px",
+                      maxHeight: "40px",
+                      minWidth: "400px",
+                      minHeight: "40px",
+                    }}
+                    onClick={routeToSignUp}
+                  >
+                    SIGN UP TO START
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item sx={{ marginBottom: "10px" }} xs={12}>
+                <Box display="flex" justifyContent="flex-start">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    style={{
+                      maxWidth: "400px",
+                      maxHeight: "40px",
+                      minWidth: "400px",
+                      minHeight: "40px",
+                    }}
+                    fullWidth
+                  >
+                    SING IN WITH PARTNER
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid xs={4}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                size="large"
-                fullWidth
-              >
-                SING IN WITH PARTNER
-              </Button>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
 
         <Box sx={{ backgroundColor: "black" }}>
           <ImageList cols={5} rowHeight={600}>
-            {movies.map((item) => (
-              <ImageListItem key={item.Title}>
+            {movies.map((item, index) => (
+              <ImageListItem key={index}>
                 <img
                   src={`${item.Poster}?w=164&h=164&fit=crop&auto=format`}
                   srcSet={`${item.Poster}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -140,15 +157,15 @@ const Home = () => {
           className="container_2"
           sx={{ height: "600px", paddingTop: "200px" }}
         >
-          <Typography gutterBottom align="center" variant="h4">
+          <Typography gutterBottom align="center" variant="h3">
             EXPLORE THE MOST POPULAR MOVIES
           </Typography>
 
-          <Typography align="center" variant="body2">
+          <Typography align="center" variant="h5">
             Subscribe for $7.99 AUD / Month. FREE.
           </Typography>
 
-          <Typography align="center" variant="body2">
+          <Typography align="center" variant="h5">
             Cancel anytime.
           </Typography>
 

@@ -32,7 +32,7 @@ const UserMovies = () => {
   let navigate = useNavigate();
   const { globalState, setGlobalState } = useContext(UserContext);
   const customerId = JSON.parse(window.localStorage.getItem("customerId"));
-  const { token } = globalState;
+  const token = JSON.parse(window.localStorage.getItem("token"));
 
   // const { token, customerId } = globalState;
 
@@ -40,6 +40,7 @@ const UserMovies = () => {
   const [openFailAlert, setOpenFailAllert] = useState(false);
   const [openSuAlert, setOpenSuAllert] = useState(false);
   const [movieId, setMovieId] = useState("");
+  const [rentalId, setRentalId] = useState("");
 
   const [rentals, setRentals] = useState([]);
   const handleSuccessOpen = () => {
@@ -67,7 +68,7 @@ const UserMovies = () => {
 
   const handleClickOpen = (e) => {
     const data = e.target.value;
-    setMovieId(data);
+    setRentalId(data);
     setOpen(true);
   };
   const handleClose = () => {
@@ -77,8 +78,12 @@ const UserMovies = () => {
     await setTimeout(() => window.location.reload(false), 3000);
   }
   const handleReturn = async () => {
-    let data = { customerId: customerId, movieId: movieId };
+    // let data = { customerId: customerId, movieId: movieId };
+    // console.log(rentalId);
+    // console.log(token);
     const headers = { "x-auth-token": token };
+    const data = { rentalId: rentalId };
+    // console.log(data);
     const res = await returnApi.returnMovie(data, headers);
     console.log(res);
     if (res.status === 200) {
@@ -164,7 +169,7 @@ const UserMovies = () => {
                             <Button
                               size="large"
                               variant="contained"
-                              value={rental.movie._id}
+                              value={rental._id}
                               onClick={(e) => handleClickOpen(e, "value")}
                             >
                               Return
@@ -224,8 +229,7 @@ const UserMovies = () => {
                               </Tooltip>
                             </Typography>
                             <Typography variant="subtitle1">
-                              Rental start date:{" "}
-                              {formatDate(rental.dateReturned)}
+                              Returned date: {formatDate(rental.dateReturned)}
                             </Typography>
                           </Grid>
                           <Grid>

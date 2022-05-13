@@ -174,7 +174,7 @@ const MovieGenre = (props) => {
   return (
     <Box sx={{}}>
       <Grid
-        sx={{ marginLeft: "20px" }}
+        sx={{ marginLeft: "30px" }}
         container
         direction="row"
         justifyContent="flex-start"

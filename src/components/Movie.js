@@ -71,7 +71,7 @@ const Movie = () => {
         </Typography>
         <Grid
           container
-          sx={{ marginLeft: "20px" }}
+          sx={{ marginLeft: "30px" }}
           direction="row"
           justifyContent="flex-start"
           columns={19}

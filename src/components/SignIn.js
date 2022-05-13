@@ -50,15 +50,15 @@ const SignIn = () => {
     // },
     onSubmit: async (values) => {
       const res = await api.signin(values);
-      if (res.status) {
+      if (res.status === 200) {
         console.log(JSON.stringify(res.data));
         await window.localStorage.setItem("token", JSON.stringify(res.data));
         await setGlobalState({
           ...globalState,
           token: res.data,
         });
-        navigate("/userInfo");
-      } else console.log(res.response.data);
+        navigate("/category");
+      } else alert(res.response.data);
     },
   });
   return (
@@ -127,7 +127,7 @@ const SignIn = () => {
           </Link>
         </Typography>
         <Typography>
-          Do you have an account ?<Link href="#">Sign Up</Link>
+          Do you have an account ?<Link href="../signup">Sign Up</Link>
         </Typography>
       </Paper>
     </Grid>

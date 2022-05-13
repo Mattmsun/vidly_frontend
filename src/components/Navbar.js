@@ -14,11 +14,15 @@ import {
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { UserContext } from "../App";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const customerId = JSON.parse(window.localStorage.getItem("customerId"));
+  const token = JSON.parse(window.localStorage.getItem("token"));
+
   const { globalState, setGlobalState } = useContext(UserContext);
+  // const { customerId } = globalState;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,15 +38,25 @@ export const Navbar = () => {
     let path = `/signin`;
     navigate(path);
   };
-  const routeToDashboard = () => {
-    let path = `/dashboard`;
+  const routeToCategory = () => {
+    let path = `/category`;
     navigate(path);
   };
+  const routeToMyHistory = () => {
+    let path = `/mymovie`;
+    navigate(path);
+  };
+  const routeToMovies = () => {
+    let path = `/movie`;
+    navigate(path);
+  };
+  // console.log(customerId);
   const handleLogout = () => {
+    handleClose();
     setGlobalState({ ...globalState, token: null });
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("phone");
-
+    window.localStorage.removeItem("customerId");
     navigate("/");
   };
   return (
@@ -53,6 +67,7 @@ export const Navbar = () => {
           edge="start"
           color="inherit"
           aria-label="logo"
+          sx={{ paddingTop: "8px" }}
           onClick={routeToHome}
         >
           <LiveTvIcon />
@@ -65,31 +80,44 @@ export const Navbar = () => {
         >
           Vidly Movie
         </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button color="inherit" onClick={routeToDashboard}>
-            Category
-          </Button>
-          <Button color="inherit">Pricing</Button>
-          <Button color="inherit">About</Button>
-          <Button
-            color="inherit"
-            id="resources-button"
-            onClick={handleClick}
-            aria-control={open ? "resource-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            endIcon={<KeyboardArrowDownIcon />}
-          >
-            Resources
-          </Button>
+        {token ? (
+          <Stack direction="row" spacing={2}>
+            <Button color="inherit" onClick={routeToCategory}>
+              Category
+            </Button>
+            {customerId ? (
+              <>
+                <Button color="inherit" onClick={routeToMovies}>
+                  Movies
+                </Button>
+                <Button color="inherit" onClick={routeToMyHistory}>
+                  History
+                </Button>
+              </>
+            ) : null}
 
-          <Button color="inherit" onClick={routeToLogIn}>
-            Sign In
-          </Button>
-          <Button color="inherit" onClick={handleLogout}>
-            Log out
-          </Button>
-        </Stack>
+            <IconButton
+              color="inherit"
+              id="resources-button"
+              onClick={handleClick}
+              aria-control={open ? "resource-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+            {/* <Button color="inherit" onClick={handleLogout}>
+              Log out
+            </Button> */}
+          </Stack>
+        ) : (
+          <Stack direction="row" spacing={2}>
+            <Button color="inherit" onClick={routeToLogIn}>
+              Sign In
+            </Button>
+          </Stack>
+        )}
+
         <Menu
           id="resources-menu"
           anchorEl={anchorEl}
@@ -106,8 +134,8 @@ export const Navbar = () => {
             horizontal: "right",
           }}
         >
-          <MenuItem onClick={handleClose}>Blog</MenuItem>
-          <MenuItem onClick={handleClose}>Podcast</MenuItem>
+          <MenuItem onClick={handleClose}>Portfolio</MenuItem>
+          <MenuItem onClick={handleLogout}>Log out</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

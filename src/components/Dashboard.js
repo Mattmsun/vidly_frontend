@@ -13,7 +13,10 @@ import {
   Snackbar,
   SnackbarContent,
   IconButton,
+  Tooltip,
 } from "@mui/material";
+import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import action from "../images/action_m.jpeg";
@@ -136,23 +139,28 @@ export const Dashboard = ({ user }) => {
   useEffect(() => {
     async function getCustomer() {
       const phone = user.phone;
-      console.log(phone);
-      const res = await api.get(phone);
-      const customerData = {
-        name: res.data.name,
-        isGold: res.data.isGold,
-        customerId: res.data._id,
-      };
-      await window.localStorage.setItem(
-        "customerId",
-        JSON.stringify(res.data._id)
-      );
-      await setGlobalState({
-        ...globalState,
-        customerId: res.data.phone,
-      });
-      if (res.status === 200) setCustomer(customerData);
-      // else console.log(res.data);
+      // console.log(phone);
+      if (phone) {
+        const res = await api.get(phone);
+        const customerData = {
+          name: res.data.name,
+          isGold: res.data.isGold,
+          customerId: res.data._id,
+        };
+        if (res.data._id) {
+          await window.localStorage.setItem(
+            "customerId",
+            JSON.stringify(res.data._id)
+          );
+          await setGlobalState({
+            ...globalState,
+            customerId: res.data._id,
+          });
+        }
+
+        if (res.status === 200) setCustomer(customerData);
+        else console.log(res.data);
+      }
     }
     getCustomer();
   }, [user]);
@@ -170,16 +178,29 @@ export const Dashboard = ({ user }) => {
     handleCloseAlert();
     setOpen(true);
   };
-  console.log(customer);
+  // console.log(customer);
   return (
     <Box className="container_1">
-      <Typography sx={{ color: "white" }} variant="h3">
-        Hello,{user.name}
-      </Typography>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
-      <PaymentDialog {...props} />
+      <Box sx={{ padding: "30px" }}>
+        <Typography sx={{ color: "white" }} variant="h3">
+          Hello,{user.name}
+          {!customer.customerId ? (
+            <Tooltip placement="top" title="To be  gold customer?">
+              <IconButton
+                size="large"
+                color="success"
+                onClick={handleClickOpen}
+              >
+                <MonetizationOnOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          ) : null}
+        </Typography>
+        {/* <Button variant="outlined" onClick={handleClickOpen}>
+          Open alert dialog
+        </Button> */}
+        <PaymentDialog {...props} />
+      </Box>
 
       <Grid
         container

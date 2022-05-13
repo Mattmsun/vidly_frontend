@@ -34,8 +34,11 @@ const Home = () => {
     let path = `/signup`;
     navigate(path);
   };
-
+  async function setCustomer() {
+    await window.localStorage.setItem("customerId", JSON.stringify(""));
+  }
   useEffect(() => {
+    setCustomer();
     const options = {
       method: "GET",
       url: "https://movie-database-alternative.p.rapidapi.com/",

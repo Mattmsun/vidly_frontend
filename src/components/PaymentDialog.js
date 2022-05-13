@@ -4,18 +4,36 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import { Grid, TextField, Button, Box } from "@mui/material";
+import { Grid, TextField, Button, Box, Snackbar } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import * as api from "../api/customerApi";
+import React from "react";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const PaymentDialog = (props) => {
   const { user, open, setOpen } = props;
 
   const handleClose = () => {
     setOpen(false);
   };
+  const [openSuAlert, setOpenSuAllert] = useState(false);
+  const handleSuccessOpen = () => {
+    setOpenSuAllert(true);
+  };
 
+  const handleSuccessClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuAllert(false);
+  };
+  async function loadRefreshContent() {
+    await setTimeout(() => window.location.reload(false), 2000);
+  }
   const formik = useFormik({
     initialValues: {
       cardNum: "",
@@ -38,6 +56,11 @@ const PaymentDialog = (props) => {
     onSubmit: async (values) => {
       let customer = { name: user.name, phone: user.phone, isGold: true };
       const res = await api.add(customer);
+      if (res.status === 200) {
+        handleSuccessOpen();
+        handleClose();
+        loadRefreshContent();
+      } else alert("something wrong");
       //   console.log(res);
     },
   });
@@ -144,6 +167,19 @@ const PaymentDialog = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openSuAlert}
+        autoHideDuration={5000}
+        onClose={handleSuccessClose}
+      >
+        <Alert
+          onClose={handleSuccessClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Thanks, you have been our gold customer
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

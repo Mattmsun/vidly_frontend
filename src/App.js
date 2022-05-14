@@ -11,6 +11,7 @@ import React, { useState, useEffect } from "react";
 import UserMovies from "./components/UserMovies";
 import { Navigate } from "react-router-dom";
 import NoMatch from "./components/NoMatch";
+import About from "./components/About";
 
 export const UserContext = React.createContext();
 function App() {
@@ -43,6 +44,7 @@ function App() {
             <Route path="/category" element={<Category />}></Route>
             <Route path="/movie" element={<Movie />}></Route>
             <Route path="/mymovie" element={<UserMovies />}></Route>
+            <Route path="/about" element={<About />}></Route>
             <Route path="/*" element={<NoMatch />}></Route>
           </Routes>
         </Router>

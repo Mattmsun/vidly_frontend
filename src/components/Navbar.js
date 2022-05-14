@@ -51,6 +51,10 @@ export const Navbar = () => {
     let path = `/movie`;
     navigate(path);
   };
+  const routeToAbout = () => {
+    let path = `/about`;
+    navigate(path);
+  };
   // console.log(customerId);
   const handleLogout = () => {
     handleClose();
@@ -81,11 +85,17 @@ export const Navbar = () => {
           sx={{ flexGrow: 1 }}
           align="left"
         ></Typography>
+
+        <Button color="inherit" onClick={routeToAbout} sx={{ marginRight: 2 }}>
+          About
+        </Button>
+
         {token ? (
           <Stack direction="row" spacing={2}>
             <Button color="inherit" onClick={routeToCategory}>
               Category
             </Button>
+
             {customerId ? (
               <>
                 <Button color="inherit" onClick={routeToMovies}>

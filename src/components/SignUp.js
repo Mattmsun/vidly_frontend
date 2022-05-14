@@ -100,7 +100,7 @@ const SignUp = () => {
         async function setTime() {
           const a = await setTimeout(() => {
             navigate("/signin");
-          }, 4000);
+          }, 2000);
         }
         setTime();
       } else alert(res.data);

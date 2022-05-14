@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Typography, Box, Grid, Button } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "../css/styles.css";
@@ -29,18 +30,36 @@ const theme = createTheme({
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const { globalState, setGlobalState } = useContext(UserContext);
+  const userName = JSON.parse(window.localStorage.getItem("userName"));
+  const customerName = JSON.parse(window.localStorage.getItem("customerName"));
+
   let movieData = [];
   let navigate = useNavigate();
   const routeToSignUp = () => {
     let path = `/signup`;
     navigate(path);
   };
-  async function setCustomer() {
+  const routeToCategory = () => {
+    let path = `/category`;
+    navigate(path);
+  };
+  async function setCustomerId() {
     if (window.localStorage.getItem("customerId")) return;
     else await window.localStorage.setItem("customerId", JSON.stringify(""));
   }
+  async function setUserName() {
+    if (window.localStorage.getItem("userName")) return;
+    else await window.localStorage.setItem("userName", JSON.stringify(""));
+  }
+  async function setCustomerName() {
+    if (window.localStorage.getItem("customerName")) return;
+    else await window.localStorage.setItem("customerName", JSON.stringify(""));
+  }
   useEffect(() => {
-    setCustomer();
+    setCustomerId();
+    setUserName();
+    setCustomerName();
     const options = {
       method: "GET",
       url: "https://movie-database-alternative.p.rapidapi.com/",
@@ -55,7 +74,7 @@ const Home = () => {
       .request(options)
       .then(function (response) {
         const r = response.data.Search;
-        console.log(r);
+        //console.log(r);
         r.map((a) => movieData.push(a));
 
         setMovies(movieData);
@@ -64,6 +83,8 @@ const Home = () => {
         console.error(error);
       });
   }, []);
+  console.log("user", userName);
+  console.log("customer", customerName);
 
   return (
     <Box>
@@ -73,57 +94,91 @@ const Home = () => {
           sx={{ height: "600px", paddingTop: "100px" }}
         >
           <Box sx={{ marginLeft: "30px" }}>
-            <Typography gutterBottom align="left" variant="h3">
-              EXPLORE THE MOST POPULAR MOVIES
-            </Typography>
+            {userName ? (
+              <Typography gutterBottom align="left" variant="h3">
+                Hello, {userName}
+              </Typography>
+            ) : (
+              <Typography gutterBottom align="left" variant="h3">
+                EXPLORE THE MOST POPULAR MOVIES
+              </Typography>
+            )}
+            {customerName ? (
+              <Typography align="left" variant="h5">
+                Enjoy exploring
+              </Typography>
+            ) : (
+              <>
+                <Typography align="left" variant="h5">
+                  Subscribe for $7.99 AUD / Month.
+                </Typography>
 
-            <Typography align="left" variant="h5">
-              Subscribe for $7.99 AUD / Month. FREE.
-            </Typography>
+                <Typography align="left" variant="h5">
+                  Cancel anytime.
+                </Typography>
 
-            <Typography align="left" variant="h5">
-              Cancel anytime.
-            </Typography>
-
-            <Typography align="left" variant="h5">
-              Join now & get 7 days FREE.
-            </Typography>
-
-            <Grid sx={{ marginTop: "100px" }} container>
-              <Grid item sx={{ marginBottom: "10px" }} xs={12}>
-                <Box display="flex" justifyContent="flex-start">
-                  <Button
-                    variant="contained"
-                    style={{
-                      maxWidth: "400px",
-                      maxHeight: "40px",
-                      minWidth: "400px",
-                      minHeight: "40px",
-                    }}
-                    onClick={routeToSignUp}
-                  >
-                    SIGN UP TO START
-                  </Button>
-                </Box>
+                <Typography align="left" variant="h5">
+                  Join now & get 7 days FREE.
+                </Typography>
+              </>
+            )}
+            {userName && !customerName ? (
+              <Grid sx={{ marginTop: "100px" }} container>
+                <Grid item sx={{ marginBottom: "10px" }} xs={12}>
+                  <Box display="flex" justifyContent="flex-start">
+                    <Button
+                      variant="contained"
+                      style={{
+                        maxWidth: "400px",
+                        maxHeight: "40px",
+                        minWidth: "400px",
+                        minHeight: "40px",
+                      }}
+                      onClick={routeToCategory}
+                    >
+                      Join Us
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item sx={{ marginBottom: "10px" }} xs={12}>
-                <Box display="flex" justifyContent="flex-start">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    style={{
-                      maxWidth: "400px",
-                      maxHeight: "40px",
-                      minWidth: "400px",
-                      minHeight: "40px",
-                    }}
-                    fullWidth
-                  >
-                    SING IN WITH PARTNER
-                  </Button>
-                </Box>
+            ) : null}
+            {userName ? null : (
+              <Grid sx={{ marginTop: "100px" }} container>
+                <Grid item sx={{ marginBottom: "10px" }} xs={12}>
+                  <Box display="flex" justifyContent="flex-start">
+                    <Button
+                      variant="contained"
+                      style={{
+                        maxWidth: "400px",
+                        maxHeight: "40px",
+                        minWidth: "400px",
+                        minHeight: "40px",
+                      }}
+                      onClick={routeToSignUp}
+                    >
+                      SIGN UP TO START
+                    </Button>
+                  </Box>
+                </Grid>
+                <Grid item sx={{ marginBottom: "10px" }} xs={12}>
+                  <Box display="flex" justifyContent="flex-start">
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      style={{
+                        maxWidth: "400px",
+                        maxHeight: "40px",
+                        minWidth: "400px",
+                        minHeight: "40px",
+                      }}
+                      fullWidth
+                    >
+                      SIGN IN WITH PARTNER
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Box>
         </Box>
 
@@ -137,18 +192,7 @@ const Home = () => {
                   loading="lazy"
                   alt={item.Title}
                 />
-                <ImageListItemBar
-                  title={item.Title}
-                  subtitle={item.Year}
-                  // actionIcon={
-                  //   <IconButton
-                  //     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                  //     aria-label={`info about ${item.title}`}
-                  //   >
-                  //     <InfoIcon />
-                  //   </IconButton>
-                  // }
-                />
+                <ImageListItemBar title={item.Title} subtitle={item.Year} />
               </ImageListItem>
             ))}
           </ImageList>
@@ -157,56 +201,66 @@ const Home = () => {
           className="container_2"
           sx={{ height: "600px", paddingTop: "200px" }}
         >
-          <Typography gutterBottom align="center" variant="h3">
-            EXPLORE THE MOST POPULAR MOVIES
-          </Typography>
+          {customerName ? (
+            <Typography gutterBottom align="center" variant="h3">
+              ENJOY EXPLORING
+            </Typography>
+          ) : (
+            <>
+              <Typography gutterBottom align="center" variant="h3">
+                EXPLORE THE MOST POPULAR MOVIES
+              </Typography>
 
-          <Typography align="center" variant="h5">
-            Subscribe for $7.99 AUD / Month. FREE.
-          </Typography>
+              <Typography align="center" variant="h5">
+                Subscribe for $7.99 AUD / Month.
+              </Typography>
 
-          <Typography align="center" variant="h5">
-            Cancel anytime.
-          </Typography>
+              <Typography align="center" variant="h5">
+                Cancel anytime.
+              </Typography>
+            </>
+          )}
 
-          <Grid
-            sx={{ marginTop: "100px" }}
-            container
-            direction="column"
-            // justifyContent="center"
-            alignItems="center"
-          >
-            <Grid item sx={{ marginBottom: "10px" }}>
-              <Button
-                variant="contained"
-                size="large"
-                onClick={routeToSignUp}
-                style={{
-                  maxWidth: "400px",
-                  maxHeight: "40px",
-                  minWidth: "400px",
-                  minHeight: "40px",
-                }}
-              >
-                SIGN UP TO START
-              </Button>
+          {userName ? null : (
+            <Grid
+              sx={{ marginTop: "100px" }}
+              container
+              direction="column"
+              // justifyContent="center"
+              alignItems="center"
+            >
+              <Grid item sx={{ marginBottom: "10px" }}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={routeToSignUp}
+                  style={{
+                    maxWidth: "400px",
+                    maxHeight: "40px",
+                    minWidth: "400px",
+                    minHeight: "40px",
+                  }}
+                >
+                  SIGN UP TO START
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  style={{
+                    maxWidth: "400px",
+                    maxHeight: "40px",
+                    minWidth: "400px",
+                    minHeight: "40px",
+                  }}
+                >
+                  SING IN WITH PARTNER
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="secondary"
-                size="large"
-                style={{
-                  maxWidth: "400px",
-                  maxHeight: "40px",
-                  minWidth: "400px",
-                  minHeight: "40px",
-                }}
-              >
-                SING IN WITH PARTNER
-              </Button>
-            </Grid>
-          </Grid>
+          )}
         </Box>
       </ThemeProvider>
     </Box>

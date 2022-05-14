@@ -124,9 +124,9 @@ const UserMovies = () => {
     return (
       <Box className="moviebg">
         <Typography
-          sx={{ color: "black", padding: "30px" }}
+          sx={{ color: "black", padding: "30px", fontWeight: 600 }}
           gutterBottom
-          variant="h4"
+          variant="h3"
         >
           Rent History
         </Typography>
@@ -146,7 +146,7 @@ const UserMovies = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                       >
-                        <Typography variant="h4">
+                        <Typography variant="h5">
                           {rental.movie.title}
                         </Typography>
                       </AccordionSummary>
@@ -196,7 +196,7 @@ const UserMovies = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                       >
-                        <Typography variant="h4">
+                        <Typography variant="h5">
                           {rental.movie.title}
                         </Typography>
                       </AccordionSummary>

@@ -58,6 +58,8 @@ export const Navbar = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("phone");
     window.localStorage.removeItem("customerId");
+    window.localStorage.removeItem("customerName");
+    window.localStorage.removeItem("userName");
     navigate("/");
   };
   return (

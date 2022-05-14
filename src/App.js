@@ -15,9 +15,11 @@ import NoMatch from "./components/NoMatch";
 export const UserContext = React.createContext();
 function App() {
   const [globalState, setGlobalState] = useState({
-    phone: null,
-    token: null,
-    customerId: null,
+    phone: "",
+    token: "",
+    customerId: "",
+    userName: "",
+    customerName: "",
   });
   useEffect(() => {
     const token = JSON.parse(window.localStorage.getItem("token"));

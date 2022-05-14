@@ -63,9 +63,9 @@ const Movie = () => {
     return (
       <Box className="moviebg">
         <Typography
-          sx={{ color: "black", padding: "30px" }}
+          sx={{ color: "black", padding: "30px", fontWeight: 600 }}
           gutterBottom
-          variant="h4"
+          variant="h3"
         >
           Pick up your favorite movie
         </Typography>
@@ -100,7 +100,7 @@ const Movie = () => {
             <TextField
               id="dailyRentalRate"
               select
-              label="Daily Rental Rate"
+              label="Daily Rental Rate $/day"
               value={dailyRentalRate}
               onChange={handleChangeRate}
               helperText="Sort the Daily rental rate"

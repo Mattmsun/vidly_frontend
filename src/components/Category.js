@@ -32,9 +32,14 @@ const Category = () => {
           "phone",
           JSON.stringify(res.data.phone)
         );
+        await window.localStorage.setItem(
+          "userName",
+          JSON.stringify(res.data.name)
+        );
         await setGlobalState({
           ...globalState,
           phone: res.data.phone,
+          userName: res.data.name,
         });
       }
       //console.log(user);

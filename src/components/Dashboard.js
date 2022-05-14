@@ -152,9 +152,14 @@ export const Dashboard = ({ user }) => {
             "customerId",
             JSON.stringify(res.data._id)
           );
+          await window.localStorage.setItem(
+            "customerName",
+            JSON.stringify(res.data.name)
+          );
           await setGlobalState({
             ...globalState,
             customerId: res.data._id,
+            customerName: res.data.name,
           });
         }
 
@@ -182,16 +187,16 @@ export const Dashboard = ({ user }) => {
   return (
     <Box className="container_1">
       <Box sx={{ padding: "30px" }}>
-        <Typography sx={{ color: "white" }} variant="h4">
+        <Typography sx={{ color: "white" }} variant="h3">
           Hello,{user.name}
           {!customer.customerId ? (
             <Tooltip placement="top" title="To be  gold customer?">
               <IconButton
                 size="large"
-                color="success"
+                color="warning"
                 onClick={handleClickOpen}
               >
-                <MonetizationOnOutlinedIcon />
+                <MonetizationOnOutlinedIcon size="large" />
               </IconButton>
             </Tooltip>
           ) : null}

@@ -51,7 +51,7 @@ const SignIn = () => {
     onSubmit: async (values) => {
       const res = await api.signin(values);
       if (res.status === 200) {
-        console.log(JSON.stringify(res.data));
+        // console.log(JSON.stringify(res.data));
         await window.localStorage.setItem("token", JSON.stringify(res.data));
         await setGlobalState({
           ...globalState,

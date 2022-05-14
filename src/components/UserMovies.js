@@ -85,7 +85,7 @@ const UserMovies = () => {
     const data = { rentalId: rentalId };
     // console.log(data);
     const res = await returnApi.returnMovie(data, headers);
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       handleClose();
       handleSuccessOpen();

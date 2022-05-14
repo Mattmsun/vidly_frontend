@@ -83,8 +83,8 @@ const Home = () => {
         console.error(error);
       });
   }, []);
-  console.log("user", userName);
-  console.log("customer", customerName);
+  // console.log("user", userName);
+  // console.log("customer", customerName);
 
   return (
     <Box>

@@ -66,9 +66,9 @@ const MovieGenre = (props) => {
   };
   const handlePay = async () => {
     let data = { customerId: customerId, movieId: movieId };
-    console.log(data);
+    // console.log(data);
     const res = await api.rental(data);
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       handleClose();
       handleSuccessOpen();
@@ -123,7 +123,7 @@ const MovieGenre = (props) => {
   );
   useEffect(() => {
     function setGenre() {
-      console.log(movies);
+      // console.log(movies);
 
       if (movies[0]) {
         switch (movies[0].genre.name) {

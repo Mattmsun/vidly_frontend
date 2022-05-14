@@ -8,6 +8,8 @@ import {
   InputAdornment,
   IconButton,
   Snackbar,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
@@ -36,6 +38,13 @@ const SignUp = () => {
   });
   let navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [openProcess, setOpenProcess] = useState(false);
+  const handleToggle = () => {
+    setOpenProcess(!open);
+  };
+  const handleCloseProcess = () => {
+    setOpenProcess(false);
+  };
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -69,6 +78,11 @@ const SignUp = () => {
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+  async function setProcess() {
+    await setTimeout(() => {
+      handleCloseProcess();
+    }, 4000);
+  }
   // formik validation
   const formik = useFormik({
     initialValues: {
@@ -92,6 +106,8 @@ const SignUp = () => {
       conPassword: Yup.string().equalTo(Yup.ref("password")).required(),
     }),
     onSubmit: async (values) => {
+      handleToggle();
+      setProcess();
       let user = { ...values };
       delete user.conPassword;
       const res = await api.signup(user);
@@ -249,6 +265,14 @@ const SignUp = () => {
           You have registered successfully, please log in now.
         </Alert>
       </Snackbar>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openProcess}
+        // onClick={handleCloseProcess}
+        // transitionDuration={3000}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Grid>
   );
 };

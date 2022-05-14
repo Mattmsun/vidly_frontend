@@ -8,6 +8,8 @@ import {
   Typography,
   InputAdornment,
   Link,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -33,6 +35,18 @@ const SignIn = () => {
   const gridStyle = { marginBottom: "20px" };
   const textFieldStyle = { marginBottom: "20px" };
   const [showPassword, setShowPassword] = useState(false);
+  const [openProcess, setOpenProcess] = useState(false);
+  const handleToggle = () => {
+    setOpenProcess(!openProcess);
+  };
+  const handleCloseProcess = () => {
+    setOpenProcess(false);
+  };
+  async function setProcess() {
+    await setTimeout(() => {
+      handleCloseProcess();
+    }, 2000);
+  }
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -49,6 +63,8 @@ const SignIn = () => {
     //   alert(JSON.stringify(values, null, 2));
     // },
     onSubmit: async (values) => {
+      handleToggle();
+      setProcess();
       const res = await api.signin(values);
       if (res.status === 200) {
         // console.log(JSON.stringify(res.data));
@@ -130,6 +146,13 @@ const SignIn = () => {
           Do you have an account ?<Link href="../signup">Sign Up</Link>
         </Typography>
       </Paper>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openProcess}
+        // onClick={handleCloseProcess}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Grid>
   );
 };

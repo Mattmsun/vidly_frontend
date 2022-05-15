@@ -3,7 +3,7 @@ import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import * as userApi from "../api/userApi";
 import * as customerApi from "../api/customerApi";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Backdrop, CircularProgress } from "@mui/material";
 import Dashboard from "./Dashboard";
 import axios from "axios";
 // axios.defaults.headers["x-auth-token"] = JSON.parse(
@@ -19,8 +19,22 @@ const Category = () => {
   // });
   const [user, setUser] = useState({});
   const { globalState, setGlobalState } = useContext(UserContext);
+  const [openProcess, setOpenProcess] = useState(false);
 
+  const handleToggle = () => {
+    setOpenProcess(!openProcess);
+  };
+  const handleCloseProcess = () => {
+    setOpenProcess(false);
+  };
+  async function setProcess() {
+    await setTimeout(() => {
+      handleCloseProcess();
+    }, 3000);
+  }
   useEffect(() => {
+    handleToggle();
+    setProcess();
     async function getData() {
       //console.log(token);
       const headers = { "x-auth-token": token };
@@ -54,6 +68,13 @@ const Category = () => {
       ) : (
         <Typography variant="h4">Please Sign in first</Typography>
       )}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openProcess}
+        // onClick={handleCloseProcess}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

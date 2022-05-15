@@ -15,8 +15,8 @@ const About = () => {
 
       <Box sx={{ paddingLeft: "100px", paddingRight: "100px" }}>
         <Typography variant="h4" align="left">
-          Vidly is a movie rental platform. You can rent differnt genres movies
-          here
+          Vidly is a movie rental platform. You can rent different genres of
+          movies here
         </Typography>
 
         <Box sx={{ paddingTop: "100px" }}>

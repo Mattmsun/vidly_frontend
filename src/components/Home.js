@@ -256,7 +256,7 @@ const Home = () => {
                     minHeight: "40px",
                   }}
                 >
-                  SING IN WITH PARTNER
+                  SIGN IN WITH PARTNER
                 </Button>
               </Grid>
             </Grid>

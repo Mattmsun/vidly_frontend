@@ -45,7 +45,7 @@ const SignIn = () => {
   async function setProcess() {
     await setTimeout(() => {
       handleCloseProcess();
-    }, 2000);
+    }, 4000);
   }
   const formik = useFormik({
     initialValues: {

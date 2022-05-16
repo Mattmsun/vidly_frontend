@@ -40,7 +40,7 @@ const SignUp = () => {
   const [open, setOpen] = useState(false);
   const [openProcess, setOpenProcess] = useState(false);
   const handleToggle = () => {
-    setOpenProcess(!open);
+    setOpenProcess(!openProcess);
   };
   const handleCloseProcess = () => {
     setOpenProcess(false);
@@ -269,7 +269,6 @@ const SignUp = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openProcess}
         // onClick={handleCloseProcess}
-        // transitionDuration={3000}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

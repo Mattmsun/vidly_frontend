@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -29,6 +29,8 @@ const SignUp = () => {
     width: 600,
     margin: "20px auto",
   };
+  const inputRef = useRef(null);
+
   const btnstyle = { margin: "8px 0" };
   const gridStyle = { marginBottom: "20px" };
   const textFieldStyle = { marginBottom: "20px" };
@@ -114,14 +116,17 @@ const SignUp = () => {
       if (res.status === 200) {
         handleOpen();
         async function setTime() {
-          const a = await setTimeout(() => {
-            navigate("/signin");
+          await setTimeout(() => {
+            navigate("/signin", { replace: true });
           }, 2000);
         }
         setTime();
       } else alert(res.data);
     },
   });
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
   return (
     <Grid>
       <Paper elevation={0} style={paperStyle}>
@@ -133,6 +138,7 @@ const SignUp = () => {
             label="Username"
             id="name"
             name="name"
+            inputRef={inputRef}
             fullWidth
             value={formik.values.name}
             onChange={formik.handleChange}

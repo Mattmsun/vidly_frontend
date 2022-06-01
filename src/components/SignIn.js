@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -30,7 +30,7 @@ const SignIn = () => {
   const { globalState, setGlobalState } = useContext(UserContext);
 
   let navigate = useNavigate();
-
+  const inputRef = useRef(null);
   const btnstyle = { margin: "8px 0" };
   const gridStyle = { marginBottom: "20px" };
   const textFieldStyle = { marginBottom: "20px" };
@@ -73,10 +73,14 @@ const SignIn = () => {
           ...globalState,
           token: res.data,
         });
-        navigate("/category");
+        navigate("/category", { replace: true });
       } else alert(res.response.data);
     },
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
   return (
     <Grid>
       <Paper elevation={0} style={paperStyle}>
@@ -89,6 +93,7 @@ const SignIn = () => {
             placeholder="Enter email"
             fullWidth
             id="email"
+            inputRef={inputRef}
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
